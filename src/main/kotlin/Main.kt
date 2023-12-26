@@ -4,7 +4,7 @@ import queue.file.modified.FileModifiedProducer
 import queue.file.modified.FileModifiedQueueExecutor
 import repository.file.FileRepository
 import repository.track.TrackRepository
-import service.ScanFileUpdatesService
+import service.ScanFileModificationsService
 
 fun main() {
     val config = initConfig()
@@ -13,8 +13,8 @@ fun main() {
     val fileModifiedProducer = FileModifiedProducer(config.fileUpdateQueue)
     val fileModifiedConsumer = FileModifiedConsumer(config.fileUpdateQueue)
     val fileModifiedQueueExecutor = FileModifiedQueueExecutor(config.fileUpdateQueue, fileModifiedConsumer)
-    val scanFileUpdatesService = ScanFileUpdatesService(trackRepository, fileRepository, fileModifiedProducer)
+    val scanFileModificationsService = ScanFileModificationsService(trackRepository, fileRepository, fileModifiedProducer)
 
-    scanFileUpdatesService.scan()
+    scanFileModificationsService.scan()
     fileModifiedQueueExecutor.exec()
 }

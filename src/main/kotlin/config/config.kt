@@ -7,7 +7,7 @@ import repository.file.FileInfoList
 import java.io.File
 import java.nio.file.Files
 
-data class Configuration(val tracks: File, val storage: File, val fileUpdateQueue: QueueConfig)
+data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig)
 
 data class QueueConfig(val name: String, val directory: File)
 
@@ -50,15 +50,15 @@ fun initConfig(): Configuration {
         }
     }
 
-    val fileUpdateQueueDirectory = File("$root/queue/file-update")
-    if (!fileUpdateQueueDirectory.exists()) {
-        val created = fileUpdateQueueDirectory.mkdirs()
+    val fileModifiedQueueDirectory = File("$root/queue/file-modified")
+    if (!fileModifiedQueueDirectory.exists()) {
+        val created = fileModifiedQueueDirectory.mkdirs()
         if (!created) {
-            throw RuntimeException("unable to create file-update queue directory $fileUpdateQueueDirectory")
+            throw RuntimeException("unable to create file-modified queue directory $fileModifiedQueueDirectory")
         }
     }
 
-    return Configuration(tracks, fileInfoList, QueueConfig("file-update", fileUpdateQueueDirectory))
+    return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory))
 }
 
 

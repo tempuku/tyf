@@ -24,7 +24,7 @@ class FileRepository(private val config: Configuration) {
     fun syncFs() {
         val fileInfoList = FileInfoList(hashIndex.values.toList())
         val json = Json.encodeToString(fileInfoList)
-        Files.write(config.storage.toPath(), json.toByteArray())
+        Files.write(config.fileInfo.toPath(), json.toByteArray())
     }
 }
 
@@ -35,6 +35,6 @@ data class FileInfoList(val content: List<FileInfo>)
 data class FileInfo(val path: String, var lastScanMillis: Long)
 
 private fun loadFileMeta(config: Configuration): FileInfoList {
-    val bytes = Files.readAllBytes(config.storage.toPath())
+    val bytes = Files.readAllBytes(config.fileInfo.toPath())
     return Json.decodeFromString<FileInfoList>(String(bytes))
 }

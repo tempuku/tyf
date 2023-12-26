@@ -6,7 +6,7 @@ import repository.file.FileRepository
 import repository.track.TrackRepository
 import java.time.Instant
 
-class ScanFileUpdatesService(
+class ScanFileModificationsService(
     private val trackRepository: TrackRepository,
     private val fileRepository: FileRepository,
     private val fileModifiedProducer: FileModifiedProducer
