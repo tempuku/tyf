@@ -9,13 +9,17 @@ import java.nio.file.Files
 
 data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig)
 
-data class QueueConfig(val name: String, val directory: File)
+data class QueueConfig(val name: String, val directory: File, val image_directory: File)
 
 @Serializable
 data class TrackList(val content: List<Track>)
 
 @Serializable
 data class Track(val path: String)
+
+data class Content(val image_path: String?, val text: String?)
+
+data class Annotation(val date: String, val content: Content?, val type: String, val page_number: Int)
 
 fun initConfig(): Configuration {
     val userHome = System.getProperty("user.home")
@@ -58,7 +62,16 @@ fun initConfig(): Configuration {
         }
     }
 
-    return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory))
+    val fileImageDirectory = File("$root/image")
+    if (!fileImageDirectory.exists()) {
+        val created = fileImageDirectory.mkdirs()
+        if (!created) {
+            throw RuntimeException("unable to create image directory $fileImageDirectory")
+        }
+    }
+
+    System.out.println(fileImageDirectory)
+    return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory, fileImageDirectory))
 }
 
 
