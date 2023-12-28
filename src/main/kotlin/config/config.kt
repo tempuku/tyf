@@ -21,9 +21,7 @@ data class Content(val image_path: String?, val text: String?)
 
 data class Annotation(val date: String, val content: Content?, val type: String, val page_number: Int)
 
-fun initConfig(): Configuration {
-    val userHome = System.getProperty("user.home")
-
+fun initConfig(userHome: String): Configuration {
     val root = File("$userHome/.tracker")
     if (!root.exists()) {
         val created = root.mkdirs()
