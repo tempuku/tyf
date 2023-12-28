@@ -1,0 +1,58 @@
+@startuml
+
+skin rose
+
+title Classes - Class Diagram
+
+TrackLocalityType *- TrackEntity
+enum TrackLocalityType {
+  Local
+  Cloud
+}
+
+TrackType *- TrackEntity
+enum TrackType {
+  File
+  Directory
+}
+
+class TrackEntity {
+  +hash id
+  +TrackType type
+  +string name
+  +string link
+}
+
+
+ChangeType *- ChangeValue
+enum ChangeType {
+  Highlight 
+}
+
+TrackEntity o-- ChangeValue
+class ChangeValue {
+  +datetime date
+  +ChangeType type
+  +TrackEntity parentTrack
+}
+
+TracksGroupAgg o-- HistoryChangesAgg
+ChangeValue o-- HistoryChangesAgg
+class HistoryChangesAgg {
+  +hash id
+  +[ChangeValue] changes 
+  +TracksGroupAgg TracksGroup
+}
+
+TrackEntity o-- TracksGroupAgg
+class TracksGroupAgg {
+  +hash id
+  +[TrackEntity] TrackList
+}
+
+
+class HistoryLogValue {
+  +TracksGroupAgg TracksGroup
+  +datetime date
+}
+@enduml
