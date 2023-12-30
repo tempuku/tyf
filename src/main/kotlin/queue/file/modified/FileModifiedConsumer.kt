@@ -9,6 +9,6 @@ class FileModifiedConsumer(
     private val historyChangesService: HistoryChangesService
     ) {
     fun consume(payload: FileModifiedPayload){
-        historyChangesService.fromFile(payload.path)
+        historyChangesService.toCache(historyChangesService.fromFile(payload.path))
     }
 }

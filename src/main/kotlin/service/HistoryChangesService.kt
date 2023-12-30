@@ -21,9 +21,36 @@ import java.io.File
 import kotlin.io.path.Path
 
 class HistoryChangesService(
+    private val config: Configuration,
     private val repository: HistoryChangesRepository,
-    private val config: Configuration
 ){
+    fun annotationToMd(annotation: Annotation, fileName: String) :String {
+        val temp_head = "# %s]\n" +
+                "**%s**\\\n" +
+                "Type: %s\\\n"
+        val temp_img = "[![image](%s)]\n"
+        val temp_text = "text: %s\n"
+        var result = temp_head.format(annotation.date, annotation.fileName, annotation.type)
+        when (annotation.type){
+            PdfName.Highlight.toString() -> {
+                result += temp_text.format(annotation.content?.text)
+            }
+            PdfName.Stamp.toString() -> {
+                result += temp_img.format(annotation.content?.image_path)
+            }
+        }
+        return result
+    }
+    fun toMd(changesModel: HistoryChangesModel?) :String {
+        if (changesModel == null) {
+            return ""
+        }
+        return changesModel.changesList
+            .map { annotationToMd(it, it.fileName) }
+            .reduce {sum, element -> sum + element}
+    }
+
+
     private fun normalizeHighlightedText(highlightedText: String): String {
         return highlightedText.replace("\\s+", " ").replace("[“”]", "\"");
     }
@@ -71,11 +98,10 @@ class HistoryChangesService(
             .map{(annotList, page_number) ->
                 annotList
                     .map{
-                        Annotation(it.getDate().getValue(), extract_text(it), it.getSubtype().toString(), page_number)
+                        Annotation(it.getDate().getValue(), extract_text(it), it.getSubtype().toString(), page_number, File(src).name)
                     }}
-        System.out.println(annotations)
         pdfDoc.close()
-        return HistoryChangesModel(File(src), annotations.flatten())
+        return HistoryChangesModel(listOf(src), annotations.flatten())
     }
 
     fun fromFile(path: String): HistoryChangesModel{
