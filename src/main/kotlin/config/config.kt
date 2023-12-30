@@ -7,9 +7,9 @@ import repository.file.FileInfoList
 import java.io.File
 import java.nio.file.Files
 
-data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig)
+data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig, val images: File, val historyChanges: File)
 
-data class QueueConfig(val name: String, val directory: File, val image_directory: File)
+data class QueueConfig(val name: String, val directory: File)
 
 @Serializable
 data class TrackList(val content: List<Track>)
@@ -17,8 +17,10 @@ data class TrackList(val content: List<Track>)
 @Serializable
 data class Track(val path: String)
 
+@Serializable
 data class Content(val image_path: String?, val text: String?)
 
+@Serializable
 data class Annotation(val date: String, val content: Content?, val type: String, val page_number: Int)
 
 fun initConfig(userHome: String): Configuration {
@@ -60,7 +62,7 @@ fun initConfig(userHome: String): Configuration {
         }
     }
 
-    val fileImageDirectory = File("$root/image")
+    val fileImageDirectory = File("$root/store/image")
     if (!fileImageDirectory.exists()) {
         val created = fileImageDirectory.mkdirs()
         if (!created) {
@@ -68,8 +70,16 @@ fun initConfig(userHome: String): Configuration {
         }
     }
 
+    val historyChangesDirectory = File("$root/store/changes")
+    if (!historyChangesDirectory.exists()) {
+        val created = historyChangesDirectory.mkdirs()
+        if (!created) {
+            throw RuntimeException("unable to create image directory $historyChangesDirectory")
+        }
+    }
+
     System.out.println(fileImageDirectory)
-    return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory, fileImageDirectory))
+    return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory), fileImageDirectory, historyChangesDirectory)
 }
 
 
