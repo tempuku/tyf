@@ -3,6 +3,7 @@ import config.TrackList
 import config.initConfig
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import model.HistoryChangesModel
 import queue.file.modified.FileModifiedConsumer
 import queue.file.modified.FileModifiedProducer
 import queue.file.modified.FileModifiedQueueExecutor
@@ -15,11 +16,13 @@ import service.ScanFileModificationsService
 import service.TrackGroupService
 import java.io.File
 import java.nio.file.Files
+import org.apache.log4j.BasicConfigurator;
 
 import java.nio.file.Paths
 import kotlin.io.path.Path
 
 fun main() {
+    BasicConfigurator.configure();
     val userHome = Paths.get("").toAbsolutePath().toString()
     val changesJson = Json.encodeToString(TrackList(listOf(Track(Paths.get("").toAbsolutePath().toString()+"/src/test/pdf1.pdf"))))
     Files.write(File("$userHome/.tracker/tracks.json").toPath(), changesJson.toByteArray())
@@ -42,7 +45,6 @@ fun main() {
 
     scanFileModificationsService.scan()
     fileModifiedQueueExecutor.exec()
-//    fileModifiedConsumer.consume(FileModifiedPayload(Paths.get("").toAbsolutePath().toString()+"/src/test/pdf1.pdf", 0))
     val historyChanges = trackGroupService.collect()
     val md = historyChangesService.toMd(historyChanges)
     config.resultDirectory.resolve(File("result.md")).writeText(md)
