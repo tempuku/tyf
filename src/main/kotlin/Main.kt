@@ -6,7 +6,6 @@ import kotlinx.serialization.json.Json
 import queue.file.modified.FileModifiedConsumer
 import queue.file.modified.FileModifiedProducer
 import queue.file.modified.FileModifiedQueueExecutor
-import queue.file.modified.FileModifiedPayload
 import repository.file.FileRepository
 import repository.historyChanges.HistoryChangesRepository
 import repository.track.TrackRepository
@@ -17,7 +16,6 @@ import java.io.File
 import java.nio.file.Files
 
 import java.nio.file.Paths
-import kotlin.io.path.Path
 
 fun main() {
     val userHome = Paths.get("").toAbsolutePath().toString()
@@ -42,7 +40,6 @@ fun main() {
 
     scanFileModificationsService.scan()
     fileModifiedQueueExecutor.exec()
-//    fileModifiedConsumer.consume(FileModifiedPayload(Paths.get("").toAbsolutePath().toString()+"/src/test/pdf1.pdf", 0))
     val historyChanges = trackGroupService.collect()
     val md = historyChangesService.toMd(historyChanges)
     config.resultDirectory.resolve(File("result.md")).writeText(md)

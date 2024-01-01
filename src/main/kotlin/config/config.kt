@@ -7,7 +7,7 @@ import repository.file.FileInfoList
 import java.io.File
 import java.nio.file.Files
 
-data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig, val images: File, val historyChanges: File, val resultDirectory: File)
+data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig, val image: File, val historyChanges: File, val resultDirectory: File)
 
 data class QueueConfig(val name: String, val directory: File)
 
@@ -62,7 +62,7 @@ fun initConfig(userHome: String): Configuration {
         }
     }
 
-    val fileImageDirectory = File("$root/store/image")
+    val fileImageDirectory = File("$root/store/result/image")
     if (!fileImageDirectory.exists()) {
         val created = fileImageDirectory.mkdirs()
         if (!created) {
@@ -85,7 +85,6 @@ fun initConfig(userHome: String): Configuration {
             throw RuntimeException("unable to create image directory $resultDirectory")
         }
     }
-    System.out.println(fileImageDirectory)
     return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory), fileImageDirectory, historyChangesDirectory, resultDirectory)
 }
 

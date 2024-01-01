@@ -2,7 +2,6 @@ package model
 
 import config.Annotation
 import kotlinx.serialization.Serializable
-import java.io.File
 @Serializable
 class HistoryChangesModel(val filePathList: List<String>, val changesList: List<Annotation>) {
     private fun addToChangesList(changesList: MutableList<Annotation>, annotation: Annotation) :MutableList<Annotation> {

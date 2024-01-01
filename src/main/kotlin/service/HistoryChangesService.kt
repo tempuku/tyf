@@ -12,23 +12,20 @@ import com.itextpdf.kernel.pdf.canvas.parser.listener.FilteredTextEventListener
 import config.Annotation
 import config.Configuration
 import config.Content
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import model.HistoryChangesModel
 import model.pdf.PdfTextExtractionStrategy
 import repository.historyChanges.HistoryChangesRepository
 import java.io.File
-import kotlin.io.path.Path
 
 class HistoryChangesService(
     private val config: Configuration,
     private val repository: HistoryChangesRepository,
 ){
-    fun annotationToMd(annotation: Annotation, fileName: String) :String {
+    fun annotationToMd(annotation: Annotation) :String {
         val temp_head = "# %s]\n" +
                 "**%s**\\\n" +
                 "Type: %s\\\n"
-        val temp_img = "[![image](%s)]\n"
+        val temp_img = "[![image](/image/%s)]\n"
         val temp_text = "text: %s\n"
         var result = temp_head.format(annotation.date, annotation.fileName, annotation.type)
         when (annotation.type){
@@ -41,12 +38,9 @@ class HistoryChangesService(
         }
         return result
     }
-    fun toMd(changesModel: HistoryChangesModel?) :String {
-        if (changesModel == null) {
-            return ""
-        }
+    fun toMd(changesModel: HistoryChangesModel) :String {
         return changesModel.changesList
-            .map { annotationToMd(it, it.fileName) }
+            .map (::annotationToMd)
             .reduce {sum, element -> sum + element}
     }
 
@@ -76,9 +70,8 @@ class HistoryChangesService(
                 val page = annotation.getPage()
                 val queueItemFileName = "/${page.getDocument().getDocumentId()}_${annotation.getDate().getValue()}"
 //                TODO: create image service
-                val config_path = "${config.images}$queueItemFileName.pdf"
+                val config_path = "${config.image}$queueItemFileName.pdf"
                 val croppedSinglePageTarget = PdfDocument(PdfWriter(config_path.toString()));
-                // page.copyTo(croppedSinglePageTarget)
                 page.getDocument().copyPagesTo(1, 1, croppedSinglePageTarget)
                 croppedSinglePageTarget.getPage(1).setCropBox(area);
                 croppedSinglePageTarget.close();
