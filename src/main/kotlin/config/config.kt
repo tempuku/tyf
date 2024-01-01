@@ -7,7 +7,7 @@ import repository.file.FileInfoList
 import java.io.File
 import java.nio.file.Files
 
-data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig)
+data class Configuration(val tracks: File, val fileInfo: File, val fileUpdateQueue: QueueConfig, val image: File, val historyChanges: File, val resultDirectory: File)
 
 data class QueueConfig(val name: String, val directory: File)
 
@@ -17,9 +17,13 @@ data class TrackList(val content: List<Track>)
 @Serializable
 data class Track(val path: String)
 
-fun initConfig(): Configuration {
-    val userHome = System.getProperty("user.home")
+@Serializable
+data class Content(val image_path: String?, val text: String?)
 
+@Serializable
+data class Annotation(val date: String, val content: Content?, val type: String, val page_number: Int, val fileName: String)
+
+fun initConfig(userHome: String): Configuration {
     val root = File("$userHome/.tracker")
     if (!root.exists()) {
         val created = root.mkdirs()
@@ -58,7 +62,30 @@ fun initConfig(): Configuration {
         }
     }
 
-    return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory))
+    val fileImageDirectory = File("$root/store/result/image")
+    if (!fileImageDirectory.exists()) {
+        val created = fileImageDirectory.mkdirs()
+        if (!created) {
+            throw RuntimeException("unable to create image directory $fileImageDirectory")
+        }
+    }
+
+    val historyChangesDirectory = File("$root/store/changes")
+    if (!historyChangesDirectory.exists()) {
+        val created = historyChangesDirectory.mkdirs()
+        if (!created) {
+            throw RuntimeException("unable to create image directory $historyChangesDirectory")
+        }
+    }
+
+    val resultDirectory = File("$root/store/result")
+    if (!resultDirectory.exists()) {
+        val created = resultDirectory.mkdirs()
+        if (!created) {
+            throw RuntimeException("unable to create image directory $resultDirectory")
+        }
+    }
+    return Configuration(tracks, fileInfoList, QueueConfig("file-modified", fileModifiedQueueDirectory), fileImageDirectory, historyChangesDirectory, resultDirectory)
 }
 
 

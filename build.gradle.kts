@@ -13,7 +13,9 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.10")
+    testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
+    implementation("com.itextpdf:itext-core:8.0.2")
+    implementation("org.slf4j:slf4j-simple:1.7.21")
 }
 
 tasks.test {
