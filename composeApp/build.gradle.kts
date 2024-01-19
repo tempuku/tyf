@@ -38,6 +38,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.compose.material3.icon.core)
+            implementation(libs.compose.material3.icon)
+            implementation(compose.material3)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
