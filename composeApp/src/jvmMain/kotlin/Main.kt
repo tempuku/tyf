@@ -1,5 +1,3 @@
-
-
 import config.Track
 import config.TrackList
 import config.initConfig
@@ -19,7 +17,24 @@ import java.nio.file.Files
 
 import java.nio.file.Paths
 
-fun main() {
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+
+fun main() = application {
+    Window(onCloseRequest = ::exitApplication, title = "TYF") {
+        App()
+    }
+}
+
+@Preview
+@Composable
+fun AppDesktopPreview() {
+    App()
+}
+
+fun mainCli() {
     val userHome = Paths.get("").toAbsolutePath().toString()
     println(userHome)
 //    val changesJson = Json.encodeToString(TrackList(listOf(Track(Paths.get("").toAbsolutePath().toString()+"/src/test/pdf1.pdf"))))

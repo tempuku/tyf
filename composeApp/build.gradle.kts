@@ -17,8 +17,8 @@ kotlin {
         }
     }
 
-//    jvm("desktop")
-    jvm("jvm")
+    jvm("desktop")
+//    jvm("jvm")
 
     listOf(
         iosX64(),
@@ -32,8 +32,8 @@ kotlin {
     }
 
     sourceSets {
-//        val desktopMain by getting
-        val jvmMain by getting
+        val desktopMain by getting
+//        val jvmMain by getting
 
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
@@ -50,13 +50,16 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(projects.shared)
+            implementation("com.squareup.okio:okio:3.0.0")
+            implementation("com.darkrockstudios:mpfilepicker:3.1.0")
+            implementation("io.github.skolson:kmp-io:0.1.5")
         }
-//        desktopMain.dependencies {
-//            implementation(compose.desktop.currentOs)
-//        }
-        jvmMain.dependencies {
+        desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
+//        jvmMain.dependencies {
+//            implementation(compose.desktop.currentOs)
+//        }
     }
 }
 

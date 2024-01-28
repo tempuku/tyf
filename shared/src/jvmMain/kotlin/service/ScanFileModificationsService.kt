@@ -4,6 +4,7 @@ import queue.file.modified.FileModifiedPayload
 import queue.file.modified.FileModifiedProducer
 import repository.file.FileRepository
 import repository.track.TrackRepository
+import java.io.File
 import java.time.Instant
 
 class ScanFileModificationsService(
@@ -12,7 +13,7 @@ class ScanFileModificationsService(
     private val fileModifiedProducer: FileModifiedProducer
 ) {
     fun scan() {
-        trackRepository.trackedFiles().forEach { file ->
+        trackRepository.trackedFiles().forEach { file :File ->
             val currentPath = file.toPath()
             val fileInfo = fileRepository.getByPath(currentPath)
 

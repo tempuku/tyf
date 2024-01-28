@@ -1,5 +1,6 @@
 package service
 
+import android.graphics.Bitmap
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfName
 import com.itextpdf.kernel.pdf.PdfReader
@@ -14,12 +15,12 @@ import config.Configuration
 import config.Content
 import model.HistoryChangesModel
 import model.pdf.PdfTextExtractionStrategy
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.rendering.ImageType
-import org.apache.pdfbox.rendering.PDFRenderer
-import org.apache.pdfbox.tools.imageio.ImageIOUtil
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.rendering.ImageType
+import com.tom_roush.pdfbox.rendering.PDFRenderer
 import repository.historyChanges.HistoryChangesRepository
 import java.io.File
+import java.io.FileOutputStream
 
 actual class HistoryChangesService actual constructor(
     actual val config: Configuration,
@@ -59,7 +60,7 @@ actual class HistoryChangesService actual constructor(
         val pdfRenderer = PDFRenderer(document)
         for (page in 0 until document.numberOfPages) {
             val bim = pdfRenderer.renderImageWithDPI(page, 300f, ImageType.RGB)
-            ImageIOUtil.writeImage(bim, dest, 300)
+            bim.compress(Bitmap.CompressFormat.PNG, 90, FileOutputStream(dest))
         }
         File(src).delete()
     }

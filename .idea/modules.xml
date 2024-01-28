@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.desktopMain.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.desktopMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.desktopTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.desktopTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.main.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/TYF.composeApp.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/TYF.shared.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/TYF.shared.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/TYF.shared.jvmMain.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/TYF.shared.jvmMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/TYF.shared.jvmTest.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/TYF.shared.jvmTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/TYF.shared.main.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/TYF.shared.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/TYF.shared.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/TYF.shared.unitTest.iml" />
+    </modules>
+  </component>
+</project>

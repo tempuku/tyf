@@ -1,6 +1,6 @@
 package repository.file
 
-import config.Configuration
+import  config.Configuration
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
